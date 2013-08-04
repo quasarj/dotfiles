@@ -5,3 +5,6 @@
 	path = submodules/vimrc
 	url = git@github.com:quasarj/vimrc
 	branch = linux
+[submodule "submodules/dex"]
+	path = submodules/dex
+	url = https://github.com/jceb/dex

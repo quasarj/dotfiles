@@ -1,0 +1,26 @@
+#!/usr/bin/bash
+#
+# Run dex (to launch Freedesktop startup applications) only if it has not
+# already been run for this X session.
+# Idea to store a value in the x resource database from:
+# http://permalink.gmane.org/gmane.comp.window-managers.awesome/9279
+#
+# Written by Quasar@jarosz.me
+
+
+
+PROP=autoload.hasrun
+HASPROP=$(xrdb -query | grep $PROP)
+
+if [ "$HASPROP" != "" ]; then
+    echo Dex has already run for this X session. I will not run again.
+    exit 0
+fi
+
+echo Running Dex.
+dex -a -e Awesome $1
+
+
+# put the property into the db
+echo "$PROP: Yes" | xrdb -merge
+

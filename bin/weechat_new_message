@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+#unset DBUS_SESSION_BUS_ADDRESS
+export DBUS_SESSION_BUS_ADDRESS=$(cat ~/.config/dbus.session)
+# notify-send -i /usr/share/icons/gnome/48x48/apps/gnome-terminal.png "Wee" "New debug message"
+notify-send -i $1 -u $2 -t $3 "Wee" "New debug message"

@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+# this could be fancier, somehow checking
+# for pulseaudio to be loaded, then run.
+
+sleep 2 # dumb for now
+volumeicon

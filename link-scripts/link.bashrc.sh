@@ -1,8 +1,6 @@
 #!/usr/bin/bash
 
-exit()
-
 . ~/.dotfiles/link-scripts/common.sh
 
-remove_link ~/.vim
-remove_link ~/.vimrc
+add_link $DOTFILES/bashrc ~/.bashrc
+

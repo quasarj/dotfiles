@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+PREFIX=/opt/toilet
+TOILET=$PREFIX/bin/toilet
+
+export LD_LIBRARY_PATH=$PREFIX/lib
+
+if [ ! -e $TOILET ]; then
+    echo Toilet not found! Looked in: $TOILET
+    exit 1
+fi
+
+$TOILET $@

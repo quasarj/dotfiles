@@ -1,0 +1,23 @@
+#!/usr/bin/bash
+#
+# Record the screen to the given file.
+# Note that screen resolution is hard-coded. This could be changed (google for it)
+usage () {
+    echo screenrecord, v0.1 by Quasar Jarosz
+    echo Record the screen to the given file \(15 fps, h.264\)
+    echo 
+    echo Usage: screenrecord \<filename\> \[\<display\>\]
+}
+
+if [ -z $1 ]; then
+    usage
+    exit 
+fi
+
+display=$2
+if [ -z $2 ]; then
+    display=:0.0
+fi
+
+
+ffmpeg -f x11grab -s 1280x800 -r 15 -i $display -vcodec libx264 -preset ultrafast -threads 0 $1

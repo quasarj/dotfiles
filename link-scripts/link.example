@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+exit()
+
 . ~/.dotfiles/link-scripts/common.sh
 
 add_link $DOTFILES/submodules/vimrc ~/.vim
