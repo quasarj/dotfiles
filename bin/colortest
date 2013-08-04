@@ -1,39 +1,16 @@
-#!/bin/bash
-#
-# ANSI color scheme script featuring Space Invaders
-#
-# Original: <a rel="nofollow" class="external free" href="http://crunchbanglinux.org/forums/post/126921/#p126921">http://crunchbanglinux.org/forums/post/126921/#p126921</a>
-# Modified by lolilolicon
-#
-
-f=3 b=4
-for j in f b; do
-  for i in {0..7}; do
-    printf -v $j$i %b "\e[${!j}${i}m"
-  done
-done
-bld=$'\e[1m'
-rst=$'\e[0m'
-
-cat << EOF
-
- $f1  ▀▄   ▄▀     $f2 ▄▄▄████▄▄▄    $f3  ▄██▄     $f4  ▀▄   ▄▀     $f5 ▄▄▄████▄▄▄    $f6  ▄██▄  $rst
- $f1 ▄█▀███▀█▄    $f2███▀▀██▀▀███   $f3▄█▀██▀█▄   $f4 ▄█▀███▀█▄    $f5███▀▀██▀▀███   $f6▄█▀██▀█▄$rst
- $f1█▀███████▀█   $f2▀▀███▀▀███▀▀   $f3▀█▀██▀█▀   $f4█▀███████▀█   $f5▀▀███▀▀███▀▀   $f6▀█▀██▀█▀$rst
- $f1▀ ▀▄▄ ▄▄▀ ▀   $f2 ▀█▄ ▀▀ ▄█▀    $f3▀▄    ▄▀   $f4▀ ▀▄▄ ▄▄▀ ▀   $f5 ▀█▄ ▀▀ ▄█▀    $f6▀▄    ▄▀$rst
-
- $bld$f1▄ ▀▄   ▄▀ ▄   $f2 ▄▄▄████▄▄▄    $f3  ▄██▄     $f4▄ ▀▄   ▄▀ ▄   $f5 ▄▄▄████▄▄▄    $f6  ▄██▄  $rst
- $bld$f1█▄█▀███▀█▄█   $f2███▀▀██▀▀███   $f3▄█▀██▀█▄   $f4█▄█▀███▀█▄█   $f5███▀▀██▀▀███   $f6▄█▀██▀█▄$rst
- $bld$f1▀█████████▀   $f2▀▀▀██▀▀██▀▀▀   $f3▀▀█▀▀█▀▀   $f4▀█████████▀   $f5▀▀▀██▀▀██▀▀▀   $f6▀▀█▀▀█▀▀$rst
- $bld$f1 ▄▀     ▀▄    $f2▄▄▀▀ ▀▀ ▀▀▄▄   $f3▄▀▄▀▀▄▀▄   $f4 ▄▀     ▀▄    $f5▄▄▀▀ ▀▀ ▀▀▄▄   $f6▄▀▄▀▀▄▀▄$rst
+#!/usr/bin/bash
 
 
-                                     $f7▌$rst
+if [ -n "$1" ]; then
+    script=$(dirname $0)/colortests/$1
+    if [ -f "$script" ]; then
+        $script
+    else
+        echo That colortest does not exist!
+        echo Valid tests:
+        ls $(dirname $0)/colortests | grep -v initansi
+    fi
+else
+    $(dirname $0)/colortests/space-invaders
+fi
 
-                                   $f7▌$rst
-
-                              $f7    ▄█▄    $rst
-                              $f7▄█████████▄$rst
-                              $f7▀▀▀▀▀▀▀▀▀▀▀$rst
-
-EOF
