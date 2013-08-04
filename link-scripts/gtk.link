@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+
+. ~/.dotfiles/link-scripts/common.sh
+
+# link for gtk2 and gtk3 config dirs
+
+add_link $DOTFILES/config/gtk-2.0 ~/.config/gtk-2.0
+add_link $DOTFILES/config/gtk-3.0 ~/.config/gtk-3.0
+
