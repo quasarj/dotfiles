@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+. ~/.dotfiles/link-scripts/common.sh
+
+echo Removing links for basic home dotfiles.
+
+for file in $DOTFILES/home/*; do
+    remove_link ~/.$(basename $file)
+done
+
+

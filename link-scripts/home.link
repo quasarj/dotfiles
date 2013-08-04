@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+. ~/.dotfiles/link-scripts/common.sh
+
+echo Creating links for basic home dotfiles.
+
+for file in $DOTFILES/home/*; do
+    add_link $file ~/.$(basename $file)
+done
+
+
