@@ -8,3 +8,6 @@
 [submodule "submodules/dex"]
 	path = submodules/dex
 	url = https://github.com/jceb/dex
+[submodule "submodules/QFlex.theme"]
+	path = submodules/QFlex.theme
+	url = git@github.com:quasarj/QFlex

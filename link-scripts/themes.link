@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+. ~/.dotfiles/link-scripts/common.sh
+
+add_link $DOTFILES/submodules/QFlex.theme ~/.themes/QFlex
+
