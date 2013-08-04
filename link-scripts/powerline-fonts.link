@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+
+. ~/.dotfiles/link-scripts/common.sh
+
+for file in $DOTFILES/submodules/powerline-fonts/*/*.ttf; do
+    add_link "$file" "$HOME/.fonts/$(basename "$file")"
+done
+
+# rebuild the font cache
+fc-cache ~/.fonts

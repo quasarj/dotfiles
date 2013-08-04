@@ -11,3 +11,9 @@
 [submodule "submodules/QFlex.theme"]
 	path = submodules/QFlex.theme
 	url = git@github.com:quasarj/QFlex
+[submodule "submodules/powerline-fonts"]
+	path = submodules/powerline-fonts
+	url = https://github.com/Lokaltog/powerline-fonts
+[submodule "submodules/powerline"]
+	path = submodules/powerline
+	url = https://github.com/Lokaltog/powerline

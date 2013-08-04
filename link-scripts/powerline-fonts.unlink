@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+. ~/.dotfiles/link-scripts/common.sh
+
+for file in $DOTFILES/submodules/powerline-fonts/*/*.ttf; do
+    remove_link "$HOME/.fonts/$(basename "$file")"
+done
+

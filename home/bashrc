@@ -7,8 +7,7 @@ fi
 
 
 # powerline - this is pretty slow, but very pretty. Maybe do something else?
-. ~/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh
-
+. ~/.dotfiles/submodules/powerline/powerline/bindings/bash/powerline.sh
 
 yil () { # "yum install last"
     # This will call yi (yum install) on the last ys (yum search) command.
@@ -60,9 +59,12 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib
 # paths
 DOTFILESBIN=~/.dotfiles/bin
 DOTFILESBINS=~/.dotfiles/system-specific-bin
+POWERLINEP=~/.dotfiles/submodules/powerline/scripts
+
+
 MPLAYER_PATH=/opt/mplayer2/bin
 
-LOCALPATH=$DOTFILESBIN:$DOTFILESBINS:$MPLAYER_PATH
+LOCALPATH=$DOTFILESBIN:$DOTFILESBINS:$MPLAYER_PATH:$POWERLINEP
 
 
 export PATH=$LOCALPATH:$JAVA_HOME/bin:$ORACLE_HOME/bin:$PATH
