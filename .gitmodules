@@ -1,3 +1,7 @@
 [submodule "submodules/screenfetch"]
 	path = submodules/screenfetch
 	url = https://github.com/KittyKatt/screenFetch
+[submodule "submodules/vimrc"]
+	path = submodules/vimrc
+	url = git@github.com:quasarj/vimrc
+	branch = linux
