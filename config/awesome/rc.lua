@@ -40,7 +40,7 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 -- beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
-beautiful.init("/home/quasar/.config/awesome/themes/zenburn/theme.lua")
+beautiful.init("/home/quasar/.config/awesome/themes/dark1/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "sakura"
@@ -53,7 +53,8 @@ editor_cmd = editor
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
+--modkey = "Mod4" -- Windows Key
+modkey = "Mod1" -- Alt key
 
 
 -- naughty.notify({ title = "test", text = "testing naughty"})

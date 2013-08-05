@@ -5,6 +5,9 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
+if [ -f ~/.bashrc-system-specific ]; then
+    . ~/.bashrc-system-specific
+fi
 
 # powerline - this is pretty slow, but very pretty. Maybe do something else?
 . ~/.dotfiles/submodules/powerline/powerline/bindings/bash/powerline.sh

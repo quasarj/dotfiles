@@ -1,0 +1,97 @@
+{
+    /* attempt to wrap at this many columns, when possible */
+    "pageWidth":120,
+
+    "alignmentAs":false,
+    "alignmentComma":false,
+    "alignmentComment":true,
+    "alignmentConcat":true,
+    "alignmentDeclaration":false,
+    "alignmentEqual":false,
+    "alignmentKeyword":false,
+    "alignmentOperator":false,
+    "linebreakAfterConcat":false,
+    "linebreakBeforeConcat":true,
+    "linebreakBeforeLineComment":false,
+    "linebreakCase":true,
+    "linebreakCaseAndOr":true,
+    "linebreakCaseElse":true,
+    "linebreakCaseThen":false,
+    "linebreakCaseWhen":true,
+    "linebreakJoin":false,
+    "linebreakKeyword":true,
+
+    /* when set, output will be on a single line only */
+    "oneLineSQL":false,
+
+    /* color does not appear to do anything */
+    "color":false,
+
+    "doubleIndentionMasterKeyword":false,
+    "andOrIndention":true,
+    "indentJoin":true,
+    "replaceComment":false,
+    "suppressComment":false,
+
+    /* lowercase the entire query (except strings) */
+    "lowerCase":true,
+
+    "lineNumber":false,
+    "numCommas":0,
+
+    /* something to do with the minimum width */
+    "smallSQLWidth":20,
+
+    /* these uppercase certain things, keywords, etc.
+     * not sure which affects which */
+    "caseOne":false,
+    "caseTwo":false,
+
+    "indentLength":4,
+    "useTabsInsteadOfSpaces":false,
+    "lineBreakBeforeComma":false,
+    "lineBreakAfterComma":true,
+    "lineBreakBeforeAnd":true,
+    "lineBreakAfterand":false,
+    "lineBreakSelectBracket":true,
+    "lineBreakBracketSpacingForAndOrWhen":true,
+    
+    /* quoteCharacter controls what is considered a string.
+     * Strings are not subject to changes in case, especially
+     * lowerCase, which lowercases everything (except strings) */
+    "quoteCharacter":"\'",
+
+    /* There are other options for this, but I don't know what they do */
+    "sourceSQLLanguage":"Oracle",
+
+    /*
+        Valid parameters:
+            unchangedSpaceInsideBracket
+            noSpacesAroundBracket
+            oneSpaceInsideBracket
+            oneSpaceOutsideBracket
+            oneSpaceAroundBracket
+    */
+    "bracketSpaces":"noSpacesAroundBracket",
+
+
+    /*
+		// Valid parameters:
+		//		unchangedSpaceComma
+		//		noSpacesAroundComma
+		//		oneSpaceAfterComma
+		//		oneSpaceBeforeComma
+		//		oneSpaceAroundComma
+
+    */
+    "commaSpaces":"oneSpaceAfterComma",
+
+    /*
+        Valid parameters:
+            unchangedSpaceEqual
+            noSpacesAroundEqual
+            oneSpaceAroundEqual
+    */
+    "equalSpaces":"oneSpaceAroundEqual"
+
+}
