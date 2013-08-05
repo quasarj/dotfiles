@@ -3,5 +3,5 @@
 . ~/.dotfiles/link-scripts/common.sh
 
 
-remove_link $DOTFILES/config/sakura ~/.config/sakura
+remove_link ~/.config/sakura
 

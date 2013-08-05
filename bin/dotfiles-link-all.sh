@@ -3,6 +3,6 @@
 echo Executing all dotfiles link scripts.
 echo
 
-for file in ~/.dotfiles/link-scripts/link*.sh; do
+for file in ~/.dotfiles/link-scripts/*.link; do
     $file
 done
