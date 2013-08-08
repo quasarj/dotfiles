@@ -17,3 +17,6 @@
 [submodule "submodules/powerline"]
 	path = submodules/powerline
 	url = https://github.com/Lokaltog/powerline
+[submodule "submodules/vicious"]
+	path = submodules/vicious
+	url = http://git.sysphere.org/vicious

@@ -37,15 +37,19 @@ set -o vi
 export SVN_COLOR=always
 
 # User specific aliases and functions
+alias ls="ls --color=auto"
+alias ll="ls -lh"
+
 alias vi=gvim
 alias vim=gvim
-alias ll="ls -lh"
 alias less="less -R" # always display colors
 alias s=sudo
 alias open=xdg-open
 alias start=xdg-open
 alias yi="sudo yum install"
 alias ys="yum search"
+alias p='ps -ef | grep'
+
 
 
 

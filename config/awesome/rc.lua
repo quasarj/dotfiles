@@ -11,6 +11,7 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local tilegap = require("tilegap")
+local vicious = require("vicious")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -53,7 +54,7 @@ editor_cmd = editor
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
---modkey = "Mod4" -- Windows Key
+-- modkey = "Mod4" -- Windows Key
 modkey = "Mod1" -- Alt key
 
 
@@ -132,6 +133,32 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- mytextclock = awful.widget.textclock(" %a %b %d, %H:%M test")
 mytextclock = awful.widget.textclock(" %Y-%m-%d, %l:%M %p ")
 
+-- MPD Display
+-- some vicious widgets
+mpdwidget = wibox.widget.textbox()
+-- Register widget
+vicious.register(mpdwidget, vicious.widgets.mpd,
+    function (mpdwidget, args)
+        if args["{state}"] == "Stop" then 
+            return " - "
+        else 
+            return args["{Artist}"]..' - '.. args["{Title}"]
+        end
+    end, 10)
+
+-- CPU Usage Graph
+-- Initialize widget
+cpuwidget = awful.widget.graph()
+-- Graph properties
+cpuwidget:set_width(50)
+cpuwidget:set_background_color("#494B4F")
+cpuwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 10,0 }, stops = { {0, "#FF5656"}, {0.5, "#88A175"}, 
+                    {1, "#AECF96" }}})
+-- Register widget
+vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
+
+
+
 -- Create a wibox for each screen and add it
 mywibox = {}
 mypromptbox = {}
@@ -208,6 +235,8 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
+    right_layout:add(mpdwidget)
+    right_layout:add(cpuwidget)
     if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
@@ -278,7 +307,6 @@ globalkeys = awful.util.table.join(
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
-    -- awful.key({ "Mod4",           }, "l",     function () awful.util.spawn("slock")    end),
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 
@@ -290,7 +318,19 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end),
     -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end)
+    awful.key({ modkey }, "p", function() menubar.show() end),
+
+   -- Multimedia keys
+    awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn("amixer set Master 2%+") end),
+    awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn("amixer set Master 2%-") end),
+
+    awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("mpc toggle") end),
+    awful.key({ }, "XF86AudioStop", function () awful.util.spawn("mpc stop") end),
+    awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("mpc prev") end),
+    awful.key({ }, "XF86AudioNext", function () awful.util.spawn("mpc next") end),
+
+    -- screen lock
+    awful.key({ "Mod4",           }, "l",     function () awful.util.spawn("slock")    end)
 )
 
 clientkeys = awful.util.table.join(
@@ -381,6 +421,15 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
+    { rule = { class = "Pidgin" },
+      properties = { floating = true,
+                     width = 250,
+                     height = 400, } },
+    -- match Google Hangouts windows
+    { rule = { class = "Google-chrome", role = "pop-up" },
+      properties = { floating = true,
+                     width = 250,
+                     height = 400, } },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
