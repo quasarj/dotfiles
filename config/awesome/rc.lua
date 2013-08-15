@@ -330,7 +330,8 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "XF86AudioNext", function () awful.util.spawn("mpc next") end),
 
     -- screen lock
-    awful.key({ "Mod4",           }, "l",     function () awful.util.spawn("slock")    end)
+    awful.key({ "Mod4", }, "l", function () awful.util.spawn("slock")    end),
+    awful.key({ "Mod4", }, "k", function () awful.util.spawn("keepassx") end)
 )
 
 clientkeys = awful.util.table.join(
@@ -352,6 +353,58 @@ clientkeys = awful.util.table.join(
             c.maximized_vertical   = not c.maximized_vertical
         end)
 )
+
+-- Bind the macro keys on the Razer Blackwidow to <something>
+-- globalkeys = awful.util.table.join(globalkeys,
+--     awful.key({}, "XF86Tools", function()
+--         local screen = mouse.screen
+--         local tag = awful.tag.gettags(screen)[1]
+--         if tag then
+--             awful.tag.viewonly(tag)
+--         end
+--     end),
+--     awful.key({}, "XF86Launch5", function()
+--         local screen = mouse.screen
+--         local tag = awful.tag.gettags(screen)[2]
+--         if tag then
+--             awful.tag.viewonly(tag)
+--         end
+--     end),
+--     awful.key({}, "XF86Launch6", function()
+--         local screen = mouse.screen
+--         local tag = awful.tag.gettags(screen)[3]
+--         if tag then
+--             awful.tag.viewonly(tag)
+--         end
+--     end),
+--     awful.key({}, "XF86Launch7", function()
+--         local screen = mouse.screen
+--         local tag = awful.tag.gettags(screen)[4]
+--         if tag then
+--             awful.tag.viewonly(tag)
+--         end
+--     end),
+--     awful.key({}, "XF86Launch8", function()
+--         local screen = mouse.screen
+--         local tag = awful.tag.gettags(screen)[5]
+--         if tag then
+--             awful.tag.viewonly(tag)
+--         end
+--     end)
+-- )
+
+-- Bind F1-F5 to the first five tags for quick switching
+for i = 1, 5 do
+    globalkeys = awful.util.table.join(globalkeys,
+        awful.key({}, "F" .. i, function()
+            local screen = mouse.screen
+            local tag = awful.tag.gettags(screen)[i]
+            if tag then
+                awful.tag.viewonly(tag)
+            end
+        end)
+    )
+end
 
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it works on any keyboard layout.
@@ -421,6 +474,14 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
+
+    -- float feh, and center it
+    { rule = { instance = "feh" },
+      properties = { floating = true },
+      callback = function (c)
+          awful.placement.centered(c, nil)
+      end
+    },
     { rule = { class = "Pidgin" },
       properties = { floating = true,
                      width = 250,

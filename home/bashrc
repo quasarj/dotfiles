@@ -18,12 +18,12 @@ yil () { # "yum install last"
     # Explanation:
     # history: get the last two history items (the last one is this command)
     # head: take the first line of that output
-    # cut: remove the first 8 characters (the history line number)
-    # sed: replace the first occurence of "ys" with "sudo yum install"
+    # perl: replace previous command with 'sudo yum install', preserve package
+    # perl was necessary because sed does not support the non-greedy qualifier
 
-    command=$(history 2 | head -n 1 | cut -c 8- | sed 's/ys/sudo yum install/')
+    command=$(history 2 | head -n 1 | perl -pe 's/.*?ys /sudo yum install /')
     echo "Installing last yum search: $command"
-    $command
+    #$command
 }
 
 
@@ -46,9 +46,19 @@ alias less="less -R" # always display colors
 alias s=sudo
 alias open=xdg-open
 alias start=xdg-open
-alias yi="sudo yum install"
-alias ys="yum search"
+# don't update the cache because it's SO FREAKING SLOW.
+# you will have to manually update the cache when wanted!
+alias yi="sudo yum -C install"
+# no need to bother with packagekit when only searching,
+# no need to bother with updating the cache
+alias ys="yum -C --disableplugin=refresh-packagekit search"
+
+# if we're updating, we almost certainly want to update the cache too
+alias yu="sudo yum update"
+
 alias p='ps -ef | grep'
+
+alias music="ncmpcpp"
 
 
 

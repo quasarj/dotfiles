@@ -20,3 +20,6 @@
 [submodule "submodules/vicious"]
 	path = submodules/vicious
 	url = http://git.sysphere.org/vicious
+[submodule "submodules/weechat-mpdnp2"]
+	path = submodules/weechat-mpdnp2
+	url = git@github.com:quasarj/mpdnp2

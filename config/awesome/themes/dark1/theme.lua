@@ -16,7 +16,8 @@ theme = {}
 -- }}}
 
 -- {{{ Styles
-theme.font      = "DejaVu Sans Mono 6"
+-- theme.font      = "DejaVu Sans Mono 6"
+theme.font      = "ProFontWindows 7"
 
 -- {{{ Colors
 theme.fg_normal  = "#DCDCCC"
