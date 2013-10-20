@@ -1,3 +1,8 @@
 [user]
 	name = Quasar Jarosz
 	email = quasar@ja.rosz.org
+
+[color]
+	ui = auto
+[push]
+	default = simple

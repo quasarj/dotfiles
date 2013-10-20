@@ -63,6 +63,12 @@ modkey = "Mod1" -- Alt key
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
 {
+
+    awful.layout.suit.tile.bottom,
+    awful.layout.suit.tile.top,
+    awful.layout.suit.tile,
+    awful.layout.suit.tile.left,
+
     awful.layout.suit.floating,
 
     tilegap,
@@ -70,18 +76,13 @@ local layouts =
     tilegap.bottom,
     tilegap.top,
 
-    awful.layout.suit.tile,
-    awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
-
     awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier
+    awful.layout.suit.fair.horizontal
+    -- awful.layout.suit.spiral,
+    -- awful.layout.suit.spiral.dwindle,
+    -- awful.layout.suit.max,
+    -- awful.layout.suit.max.fullscreen,
+    -- awful.layout.suit.magnifier
 }
 -- }}}
 
@@ -95,31 +96,26 @@ end
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
--- tags = {}
-tags = {
-    names  = { "main", "pro", "chrome", "ff", "other" },
-    layout = { layouts[2], layouts[4], layouts[14], layouts[14], layouts[1] } 
-}
+tags = {}
+-- tags = {
+--     names  = { "main", "pro", "chrome", "ff", "other" },
+--     layout = { layouts[2], layouts[4], layouts[14], layouts[14], layouts[1] } 
+-- }
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    --tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[2])
-    tags[s] = awful.tag(tags.names, s, tags.layout)
+    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+    -- tags[s] = awful.tag(tags.names, s, tags.layout)
 end
 -- }}}
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
-myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
+mymainmenu = awful.menu({
+   { "edit config", editor_cmd .. " " .. awesome.conffile, beautiful.awesome_icon },
+   { "open terminal", terminal },
    { "restart", awesome.restart },
    { "quit", awesome.quit }
-}
-
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
-                                  }
-                        })
+})
 
 -- mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 --                                      menu = mymainmenu })
@@ -131,7 +127,11 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- {{{ Wibox
 -- Create a textclock widget
 -- mytextclock = awful.widget.textclock(" %a %b %d, %H:%M test")
-mytextclock = awful.widget.textclock(" %Y-%m-%d, %l:%M %p ")
+-- mytextclock = awful.widget.textclock(" %Y-%m-%d, %l:%M %p ")
+
+-- For unknown reasons, the version of Awesome that ships with Arch
+-- does not understand %l (12-hour hour). Need to investigate.
+mytextclock = awful.widget.textclock(" %Y-%m-%d, %I:%M %p ")
 
 -- MPD Display
 -- some vicious widgets
@@ -321,17 +321,19 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "p", function() menubar.show() end),
 
    -- Multimedia keys
-    awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn("amixer set Master 2%+") end),
-    awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn("amixer set Master 2%-") end),
+   -- These audio settings require PulseAudio and pamixer.
+    awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn_with_shell("pamixer --increase 2") end),
+    awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn_with_shell("pamixer --decrease 2") end),
+    awful.key({ }, "XF86AudioMute", function () awful.util.spawn_with_shell("pamixer --toggle-mute") end),
 
-    awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("mpc toggle") end),
-    awful.key({ }, "XF86AudioStop", function () awful.util.spawn("mpc stop") end),
-    awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("mpc prev") end),
-    awful.key({ }, "XF86AudioNext", function () awful.util.spawn("mpc next") end),
+    awful.key({ }, "XF86AudioPlay", function () awful.util.spawn_with_shell("mpc toggle") end),
+    awful.key({ }, "XF86AudioStop", function () awful.util.spawn_with_shell("mpc stop") end),
+    awful.key({ }, "XF86AudioPrev", function () awful.util.spawn_with_shell("mpc prev") end),
+    awful.key({ }, "XF86AudioNext", function () awful.util.spawn_with_shell("mpc next") end),
 
     -- screen lock
     awful.key({ "Mod4", }, "l", function () awful.util.spawn("slock")    end),
-    awful.key({ "Mod4", }, "k", function () awful.util.spawn("keepassx") end)
+    awful.key({ "Mod4", }, "k", function () awful.util.spawn("keepassx /home/quasar/Dropbox/KeyPass_Database.kdbx") end)
 )
 
 clientkeys = awful.util.table.join(
@@ -355,56 +357,56 @@ clientkeys = awful.util.table.join(
 )
 
 -- Bind the macro keys on the Razer Blackwidow to <something>
--- globalkeys = awful.util.table.join(globalkeys,
---     awful.key({}, "XF86Tools", function()
---         local screen = mouse.screen
---         local tag = awful.tag.gettags(screen)[1]
---         if tag then
---             awful.tag.viewonly(tag)
---         end
---     end),
---     awful.key({}, "XF86Launch5", function()
---         local screen = mouse.screen
---         local tag = awful.tag.gettags(screen)[2]
---         if tag then
---             awful.tag.viewonly(tag)
---         end
---     end),
---     awful.key({}, "XF86Launch6", function()
---         local screen = mouse.screen
---         local tag = awful.tag.gettags(screen)[3]
---         if tag then
---             awful.tag.viewonly(tag)
---         end
---     end),
---     awful.key({}, "XF86Launch7", function()
---         local screen = mouse.screen
---         local tag = awful.tag.gettags(screen)[4]
---         if tag then
---             awful.tag.viewonly(tag)
---         end
---     end),
---     awful.key({}, "XF86Launch8", function()
---         local screen = mouse.screen
---         local tag = awful.tag.gettags(screen)[5]
---         if tag then
---             awful.tag.viewonly(tag)
---         end
---     end)
--- )
+globalkeys = awful.util.table.join(globalkeys,
+    awful.key({}, "XF86Tools", function()
+        local screen = mouse.screen
+        local tag = awful.tag.gettags(screen)[1]
+        if tag then
+            awful.tag.viewonly(tag)
+        end
+    end),
+    awful.key({}, "XF86Launch5", function()
+        local screen = mouse.screen
+        local tag = awful.tag.gettags(screen)[2]
+        if tag then
+            awful.tag.viewonly(tag)
+        end
+    end),
+    awful.key({}, "XF86Launch6", function()
+        local screen = mouse.screen
+        local tag = awful.tag.gettags(screen)[3]
+        if tag then
+            awful.tag.viewonly(tag)
+        end
+    end),
+    awful.key({}, "XF86Launch7", function()
+        local screen = mouse.screen
+        local tag = awful.tag.gettags(screen)[4]
+        if tag then
+            awful.tag.viewonly(tag)
+        end
+    end),
+    awful.key({}, "XF86Launch8", function()
+        local screen = mouse.screen
+        local tag = awful.tag.gettags(screen)[5]
+        if tag then
+            awful.tag.viewonly(tag)
+        end
+    end)
+)
 
 -- Bind F1-F5 to the first five tags for quick switching
-for i = 1, 5 do
-    globalkeys = awful.util.table.join(globalkeys,
-        awful.key({}, "F" .. i, function()
-            local screen = mouse.screen
-            local tag = awful.tag.gettags(screen)[i]
-            if tag then
-                awful.tag.viewonly(tag)
-            end
-        end)
-    )
-end
+-- for i = 1, 5 do
+--     globalkeys = awful.util.table.join(globalkeys,
+--         awful.key({}, "F" .. i, function()
+--             local screen = mouse.screen
+--             local tag = awful.tag.gettags(screen)[i]
+--             if tag then
+--                 awful.tag.viewonly(tag)
+--             end
+--         end)
+--     )
+-- end
 
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it works on any keyboard layout.
@@ -485,12 +487,19 @@ awful.rules.rules = {
     { rule = { class = "Pidgin" },
       properties = { floating = true,
                      width = 250,
-                     height = 400, } },
+                     height = 400,
+                     ontop = true } },
+    { rule = { class = "Keepassx" },
+      properties = { floating = true,
+                     width = 250,
+                     height = 400,
+                     ontop = true } },
     -- match Google Hangouts windows
     { rule = { class = "Google-chrome", role = "pop-up" },
       properties = { floating = true,
                      width = 250,
-                     height = 400, } },
+                     height = 400, 
+                     ontop = true } },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
@@ -593,6 +602,6 @@ awful.util.spawn_with_shell("dex_run_once")
 -- awful.util.spawn("delay_volumeicon")
 
 
--- client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
--- client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}

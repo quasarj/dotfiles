@@ -10,7 +10,7 @@ if [ -f ~/.bashrc-system-specific ]; then
 fi
 
 # powerline - this is pretty slow, but very pretty. Maybe do something else?
-. ~/.dotfiles/submodules/powerline/powerline/bindings/bash/powerline.sh
+#. ~/.dotfiles/submodules/powerline/powerline/bindings/bash/powerline.sh
 
 yil () { # "yum install last"
     # This will call yi (yum install) on the last ys (yum search) command.
@@ -23,7 +23,7 @@ yil () { # "yum install last"
 
     command=$(history 2 | head -n 1 | perl -pe 's/.*?ys /sudo yum install /')
     echo "Installing last yum search: $command"
-    #$command
+    $command
 }
 
 
@@ -41,22 +41,20 @@ alias ls="ls --color=auto"
 alias ll="ls -lh"
 
 alias vi=gvim
-alias vim=gvim
 alias less="less -R" # always display colors
 alias s=sudo
 alias open=xdg-open
 alias start=xdg-open
-# don't update the cache because it's SO FREAKING SLOW.
-# you will have to manually update the cache when wanted!
-alias yi="sudo yum -C install"
-# no need to bother with packagekit when only searching,
-# no need to bother with updating the cache
-alias ys="yum -C --disableplugin=refresh-packagekit search"
 
-# if we're updating, we almost certainly want to update the cache too
-alias yu="sudo yum update"
 
-alias p='ps -ef | grep'
+alias p="sudo pacman"
+
+alias yi="yaourt -S"
+alias ys="yaourt -Ss"
+
+
+
+alias pg='ps -ef | grep'
 
 alias music="ncmpcpp"
 
@@ -71,6 +69,7 @@ export SVN_EDITOR=gvim
 
 export JAVA_HOME=/opt/jdk1.6.0_45
 export ORACLE_HOME=/usr/lib/oracle/11.2/client64
+export TNS_ADMIN=$ORACLE_HOME/network/admin
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib
 
 # paths

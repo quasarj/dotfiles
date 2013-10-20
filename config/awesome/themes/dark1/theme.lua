@@ -8,6 +8,8 @@
 
 theme_path = "~/.config/awesome/themes/dark1"
 
+bg_color = "#2E3436"
+
 
 -- {{{ Main
 theme = {}
@@ -16,30 +18,30 @@ theme = {}
 -- }}}
 
 -- {{{ Styles
--- theme.font      = "DejaVu Sans Mono 6"
-theme.font      = "ProFontWindows 7"
+theme.font      = "DejaVu Sans Mono 9"
+-- theme.font      = "ProFontWindows 9"
 
 -- {{{ Colors
 theme.fg_normal  = "#DCDCCC"
 theme.fg_focus   = "#F0DFAF"
 theme.fg_urgent  = "#CC9393"
-theme.bg_normal  = "#3F3F3F"
+theme.bg_normal  = bg_color
 -- theme.bg_normal  = "#FFFFFF"
-theme.bg_focus   = "#1E2320"
-theme.bg_urgent  = "#3F3F3F"
+theme.bg_focus   = bg_color
+theme.bg_urgent  = bg_color
 theme.bg_systray = theme.bg_normal
 -- }}}
 
 -- {{{ Borders
-theme.border_width  = 0
-theme.border_normal = "#3F3F3F"
-theme.border_focus  = "#6F6F6F"
-theme.border_marked = "#CC9393"
+theme.border_width  = 1
+theme.border_normal = bg_color
+theme.border_focus  = "#FFFFFF"
+theme.border_marked = bg_color
 -- }}}
 
 -- {{{ Titlebars
-theme.titlebar_bg_focus  = "#3F3F3F"
-theme.titlebar_bg_normal = "#3F3F3F"
+theme.titlebar_bg_focus  = bg_color
+theme.titlebar_bg_normal = bg_color
 -- }}}
 
 -- There are other variable sets
@@ -73,7 +75,7 @@ theme.mouse_finder_color = "#CC9393"
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
 theme.menu_height = 15
-theme.menu_width  = 100
+theme.menu_width  = 150
 -- }}}
 
 -- {{{ Icons
