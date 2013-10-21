@@ -322,9 +322,9 @@ globalkeys = awful.util.table.join(
 
    -- Multimedia keys
    -- These audio settings require PulseAudio and pamixer.
-    awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn_with_shell("pamixer --increase 2") end),
-    awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn_with_shell("pamixer --decrease 2") end),
-    awful.key({ }, "XF86AudioMute", function () awful.util.spawn_with_shell("pamixer --toggle-mute") end),
+    awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn_with_shell("volume_up") end),
+    awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn_with_shell("volume_down") end),
+    awful.key({ }, "XF86AudioMute", function () awful.util.spawn_with_shell("volume_toggle_mute") end),
 
     awful.key({ }, "XF86AudioPlay", function () awful.util.spawn_with_shell("mpc toggle") end),
     awful.key({ }, "XF86AudioStop", function () awful.util.spawn_with_shell("mpc stop") end),

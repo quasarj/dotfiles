@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+#
+# volume_toggle_mute
+#
+# Toggle system mute via PulseAudio, and send a notification.
+# Requires: pamixer, notify-send
+
+pamixer --toggle-mute
+if [ $(pamixer --get-mute) == 'true' ]; then
+    notify-send "Volume Muted!"
+else
+    notify-send "Volume Un-Muted!"
+fi

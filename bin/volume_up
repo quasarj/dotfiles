@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+#
+# volume_up
+#
+# Increase the system volume via PulseAudio, and send a notification.
+# Requires: pamixer, notify-send
+
+pamixer --increase 2
+notify-send "Volume+: $(pamixer --get-volume)"
