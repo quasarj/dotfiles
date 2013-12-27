@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+echo Inhibiting sleep
+systemd-inhibit --what=handle-lid-switch cat

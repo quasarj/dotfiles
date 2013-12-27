@@ -22,7 +22,7 @@ export SVN_COLOR=always
 alias ls="ls --color=auto"
 alias ll="ls -lh"
 
-alias vi=gvim
+alias vi=vim
 alias less="less -R" # always display colors
 alias s=sudo
 alias open=xdg-open
