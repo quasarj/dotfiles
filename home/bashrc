@@ -9,6 +9,10 @@ if [ -f ~/.bashrc-system-specific ]; then
     . ~/.bashrc-system-specific
 fi
 
+. ~/.dotfiles/bin/battery_func.sh
+
+export PS1='[\u@\h $(bat) \W]\$ '
+
 
 # use vi mode
 set -o vi
