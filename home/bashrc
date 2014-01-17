@@ -9,24 +9,6 @@ if [ -f ~/.bashrc-system-specific ]; then
     . ~/.bashrc-system-specific
 fi
 
-# powerline - this is pretty slow, but very pretty. Maybe do something else?
-#. ~/.dotfiles/submodules/powerline/powerline/bindings/bash/powerline.sh
-
-yil () { # "yum install last"
-    # This will call yi (yum install) on the last ys (yum search) command.
-    # 
-    # Explanation:
-    # history: get the last two history items (the last one is this command)
-    # head: take the first line of that output
-    # perl: replace previous command with 'sudo yum install', preserve package
-    # perl was necessary because sed does not support the non-greedy qualifier
-
-    command=$(history 2 | head -n 1 | perl -pe 's/.*?ys /sudo yum install /')
-    echo "Installing last yum search: $command"
-    $command
-}
-
-
 
 # use vi mode
 set -o vi
@@ -46,17 +28,22 @@ alias s=sudo
 alias open=xdg-open
 alias start=xdg-open
 
+# Start feh in fullscreen, with filenames turned on, and captions
+alias feh="feh -F -d --caption-path captions"
+
+# pacman aliases
+alias p="sudo pacman"
+alias pacs="sudo pacman -Ss"
 alias paci="sudo pacman -S"
-alias pacs="pacman -Ss"
-alias auri="yaourt -S"
 alias aurs="yaourt -Ss"
+alias auri="yaourt -S"
+
+alias sys="sudo systemctl"
 
 
 alias pg='ps -ef | grep'
 
 alias music="ncmpcpp"
-
-
 
 
 # location variables
@@ -65,7 +52,7 @@ export rclua=$HOME/.config/awesome/rc.lua
 
 export SVN_EDITOR=gvim
 
-export JAVA_HOME=/opt/jdk1.6.0_45
+export JAVA_HOME=/opt/jdk1.7.0_45
 export ORACLE_HOME=/usr/lib/oracle/11.2/client64
 export TNS_ADMIN=$ORACLE_HOME/network/admin
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib

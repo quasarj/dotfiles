@@ -11,6 +11,7 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local tilegap = require("tilegap")
+local outtergap = require("outtergap")
 local vicious = require("vicious")
 
 -- {{{ Error handling
@@ -44,7 +45,7 @@ end
 beautiful.init("/home/quasar/.config/awesome/themes/dark1/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "sakura"
+terminal = "urxvt"
 editor = os.getenv("EDITOR") or "gvim"
 -- editor_cmd = terminal .. " -e " .. editor
 editor_cmd = editor
@@ -64,20 +65,21 @@ modkey = "Mod1" -- Alt key
 local layouts =
 {
 
+    outtergap.bottom,
+    awful.layout.suit.floating,
+
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
 
-    awful.layout.suit.floating,
-
     tilegap,
     tilegap.left,
     tilegap.bottom,
-    tilegap.top,
+    tilegap.top
 
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal
+    -- awful.layout.suit.fair,
+    -- awful.layout.suit.fair.horizontal
     -- awful.layout.suit.spiral,
     -- awful.layout.suit.spiral.dwindle,
     -- awful.layout.suit.max,
@@ -103,7 +105,7 @@ tags = {}
 -- }
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 }, s, layouts[1])
     -- tags[s] = awful.tag(tags.names, s, tags.layout)
 end
 -- }}}
@@ -131,7 +133,11 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- For unknown reasons, the version of Awesome that ships with Arch
 -- does not understand %l (12-hour hour). Need to investigate.
-mytextclock = awful.widget.textclock(" %Y-%m-%d, %I:%M %p ")
+-- Figured it out - turns out %l is not understood by Lua, and Fedora
+-- had been using a patch to their Lua that added this in.
+--
+-- Second parameter is how often to update the clock (in seconds)
+mytextclock = awful.widget.textclock(" %Y-%m-%d, %I:%M %p ", 1)
 
 -- MPD Display
 -- some vicious widgets
@@ -491,11 +497,15 @@ awful.rules.rules = {
                      ontop = true } },
     { rule = { class = "Keepassx" },
       properties = { floating = true,
-                     width = 250,
-                     height = 400,
                      ontop = true } },
     -- match Google Hangouts windows
     { rule = { class = "Google-chrome", role = "pop-up" },
+      properties = { floating = true,
+                     width = 250,
+                     height = 400, 
+                     ontop = true } },
+    -- in case we're using the unstable branch of chrome...
+    { rule = { class = "Google-chrome-unstable", role = "pop-up" },
       properties = { floating = true,
                      width = 250,
                      height = 400, 

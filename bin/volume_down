@@ -6,4 +6,4 @@
 # Requires: pamixer, notify-send
 
 pamixer --decrease 2
-notify-send "Volume-: $(pamixer --get-volume)"
+notify-send -t 200 "Volume-: $(pamixer --get-volume)"
