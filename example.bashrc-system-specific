@@ -1,0 +1,10 @@
+. .dotfiles/bin/initansi
+initializeANSI
+
+. /usr/share/git/completion/git-prompt.sh
+
+bat() {
+    cat /sys/class/power_supply/BAT0/capacity
+}
+
+export PS1='@\[${bluef}\]\H\[${reset}\] \[${yellowf}\]\[${boldon}\]$(bat)\[${reset}\] \[${greenf}\]\W\[${cyanf}\]$(__git_ps1 " (%s)") \[${reset}\]\$ '
