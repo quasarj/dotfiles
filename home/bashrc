@@ -41,7 +41,8 @@ alias auri="yaourt -S"
 alias sys="sudo systemctl"
 
 
-alias pg='ps -ef | grep'
+alias ps='ps -eo pid,user,cmd'
+alias pg='ps | grep'
 
 alias music="ncmpcpp"
 
