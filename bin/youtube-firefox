@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+echo "Getting direct link to mp4 video, and opening in firefox..."
+firefox $(youtube-dl -g $1)
