@@ -41,6 +41,8 @@ alias auri="yaourt -S"
 alias sys="sudo systemctl"
 
 
+alias grep='grep --color=always -n'
+
 alias pg='ps -ef | grep'
 
 alias music="ncmpcpp"
@@ -70,5 +72,5 @@ LOCALPATH=$DOTFILESBIN:$DOTFILESBINS:$MPLAYER_PATH:$POWERLINEP:$GEMSBIN
 
 export PATH=$LOCALPATH:$JAVA_HOME/bin:$ORACLE_HOME/bin:$PATH
 
-
+export EDITOR=vim
 
