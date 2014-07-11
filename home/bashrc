@@ -10,6 +10,10 @@ if [ -f ~/.bashrc-system-specific ]; then
 fi
 
 
+# a simple command to set xterm/tmux window titles to the pwd
+. /usr/share/git/completion/git-prompt.sh
+export PROMPT_COMMAND='printf "\033_%s%s\033\\" "${PWD/#$HOME/\~}" "$(__git_ps1 " (%s)")"'
+
 # use vi mode
 set -o vi
 
@@ -47,6 +51,8 @@ alias pg='ps -ef | grep'
 
 alias music="ncmpcpp"
 
+alias ipy='ipython2 --no-confirm-exit'
+
 
 # location variables
 
@@ -55,22 +61,33 @@ export rclua=$HOME/.config/awesome/rc.lua
 export SVN_EDITOR=gvim
 
 export JAVA_HOME=/opt/jdk1.7.0_45
-export ORACLE_HOME=/usr/lib/oracle/11.2/client64
-export TNS_ADMIN=$ORACLE_HOME/network/admin
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib
 
 # paths
 DOTFILESBIN=~/.dotfiles/bin
 DOTFILESBINS=~/.dotfiles/system-specific-bin
 POWERLINEP=~/.dotfiles/submodules/powerline/scripts
-GEMSBIN=~/.gem/ruby/2.0.0/bin
+GEMSBIN=~/.gem/ruby/2.1.0/bin
 
 MPLAYER_PATH=/opt/mplayer2/bin
 
 LOCALPATH=$DOTFILESBIN:$DOTFILESBINS:$MPLAYER_PATH:$POWERLINEP:$GEMSBIN
+AOC_PYTHON=/home/quasar/.local/lib/python2.7/site-packages/aoc
 
+export GOPATH=$HOME/go
 
-export PATH=$LOCALPATH:$JAVA_HOME/bin:$ORACLE_HOME/bin:$PATH
+export PATH=$LOCALPATH:$JAVA_HOME/bin:$PATH:$GOPATH/bin
 
 export EDITOR=vim
+
+field=
+record=
+
+# fix for Sakura and other VTE-based terminals,
+# which insist on setting TERM to xterm
+if [ -n "$VTE_VERSION" ]; then
+    export TERM=xterm-256color
+fi
+
+# Remind myself of open tasks
+task
 
