@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+#
+# This script sets constant deceleration for gaming
+# mice. It is used because many gaming mice show up as several different
+# devices with the same name, and xinput has difficutly telling them apart.
+
+SEARCH="SteelSeries"
+if [ "$SEARCH" = "" ]; then 
+    exit 1
+fi
+
+ids=$(xinput --list | grep -i pointer | awk -v search="$SEARCH" \
+    '$0 ~ search {match($0, /id=[0-9]+/);\
+                  if (RSTART) \
+                    print substr($0, RSTART+3, RLENGTH-3)\
+                 }'\
+     )
+
+for i in $ids
+do
+    xinput set-prop $i 'Device Accel Constant Deceleration' 3
+done
