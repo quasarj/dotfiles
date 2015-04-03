@@ -39,4 +39,5 @@ ADDRESS=$(uploadImage "shot.png")
 echo $ADDRESS
 echo $ADDRESS | xclip -selection c
 rm "shot.png"
-notify-send "Done"
+firefox $ADDRESS
+
