@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+
+BITRATE=1000k
+
+FILENAME="$1"
+FILE="${FILENAME%%.*}"  # Everything up to the first dot.
+EXT="${FILENAME#*.}" # The ext, or everything past the first dot.
+
+ffmpeg -i "$FILENAME" -c:v libvpx -c:a libvorbis -b:v $BITRATE "${FILE}.webm"
