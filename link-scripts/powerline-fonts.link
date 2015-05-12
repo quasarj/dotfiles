@@ -6,5 +6,9 @@ for file in $DOTFILES/submodules/powerline-fonts/*/*.ttf; do
     add_link "$file" "$HOME/.fonts/$(basename "$file")"
 done
 
+for file in $DOTFILES/submodules/powerline-fonts/*/*.otf; do
+    add_link "$file" "$HOME/.fonts/$(basename "$file")"
+done
+
 # rebuild the font cache
 fc-cache ~/.fonts

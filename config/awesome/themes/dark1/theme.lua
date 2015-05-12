@@ -14,7 +14,7 @@ bg_color = "#2E3436"
 -- {{{ Main
 theme = {}
     -- set to a symlink to allow quick switching, etc.
-    theme.wallpaper = "~/.config/awesome/themes/background.img"
+    -- theme.wallpaper = "~/.config/awesome/themes/background.img"
 -- }}}
 
 -- {{{ Styles

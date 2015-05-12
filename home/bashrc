@@ -21,12 +21,16 @@ set -o vi
 # . ~/bin/svn-color/svn-color.sh
 # ensure it will work through less
 export SVN_COLOR=always
+function svnlog {
+    svn log | less
+}
 
 # User specific aliases and functions
 alias ls="ls --color=auto"
 alias ll="ls -lh"
+alias llt="ls -lht | head"
 
-alias vi=vim
+alias vi=nvim
 alias less="less -R" # always display colors
 alias s=sudo
 alias open=xdg-open
@@ -44,7 +48,6 @@ alias auri="yaourt -S"
 
 alias sys="sudo systemctl"
 
-
 alias grep='grep --color=always -n'
 
 alias pg='ps -ef | grep'
@@ -52,15 +55,22 @@ alias pg='ps -ef | grep'
 alias music="ncmpcpp"
 
 alias ipy='ipython2 --no-confirm-exit'
+alias py='ptpython --vi'
 
+alias t='tmux'
+
+alias dict='sdcv -n'
+alias define='sdcv -n'
 
 # location variables
 
 export rclua=$HOME/.config/awesome/rc.lua
 
-export SVN_EDITOR=gvim
+export SVN_EDITOR=nvim
 
-export JAVA_HOME=/opt/jdk1.7.0_45
+export JAVA_HOME=/opt/jdk1.7.0_65
+# ensure java always uses pretty fonts, instead of terrible ones..
+export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=gasp"
 
 # paths
 DOTFILESBIN=~/.dotfiles/bin
@@ -70,14 +80,19 @@ GEMSBIN=~/.gem/ruby/2.1.0/bin
 
 MPLAYER_PATH=/opt/mplayer2/bin
 
+MISCBIN=/home/quasar/git/misc_scripts
+
 LOCALPATH=$DOTFILESBIN:$DOTFILESBINS:$MPLAYER_PATH:$POWERLINEP:$GEMSBIN
 AOC_PYTHON=/home/quasar/.local/lib/python2.7/site-packages/aoc
 
 export GOPATH=$HOME/go
+GNUPRICING=~/gnu-pricing/bin
 
-export PATH=$LOCALPATH:$JAVA_HOME/bin:$PATH:$GOPATH/bin
+export PATH=$GNUPRICING:$LOCALPATH:$JAVA_HOME/bin:$PATH:$GOPATH/bin:$MISCBIN
 
 export EDITOR=vim
+export aoc=/home/quasar/.local/lib/python2.7/site-packages/aoc
+export aoc3=/home/quasar/.local/lib/python3.4/site-packages/aoc
 
 field=
 record=
@@ -87,6 +102,9 @@ record=
 if [ -n "$VTE_VERSION" ]; then
     export TERM=xterm-256color
 fi
+
+# neovim env var options
+. ~/.nvim/env.sh
 
 # Remind myself of open tasks
 task

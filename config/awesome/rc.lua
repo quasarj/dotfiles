@@ -45,7 +45,12 @@ end
 beautiful.init("/home/quasar/.config/awesome/themes/dark1/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvt"
+-- terminal = "urxvt -e bash -c \"tmux -q has-session -t work && exec tmux attach-session -t work || exec tmux new-session -s work\""
+-- terminal = "urxvt -e bash -c \"exec tmux new-session\""
+-- terminal = "sakura -e '.dotfiles/bin/sakura_launch_tmux.sh'"
+-- letterSpacing -1 added to correct issue Infinality font patches caused with kerning on this font
+-- terminal = "urxvt -fn \"xft:DeJa Vu Sans Mono for Powerline:pixelsize=20\" -letterSpacing -1 -e '.dotfiles/bin/sakura_launch_tmux.sh'"
+terminal = "st -e tmux"
 editor = os.getenv("EDITOR") or "gvim"
 -- editor_cmd = terminal .. " -e " .. editor
 editor_cmd = editor
@@ -55,8 +60,7 @@ editor_cmd = editor
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
--- modkey = "Mod4" -- Windows Key
-modkey = "Mod1" -- Alt key
+modkey = "Mod4" -- Windows Key
 
 
 -- naughty.notify({ title = "test", text = "testing naughty"})
@@ -65,10 +69,10 @@ modkey = "Mod1" -- Alt key
 local layouts =
 {
 
-    outtergap.bottom,
-    awful.layout.suit.floating,
-
     awful.layout.suit.tile.bottom,
+    awful.layout.suit.floating,
+    outtergap.bottom,
+
     awful.layout.suit.tile.top,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
@@ -302,7 +306,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
-    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
+    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( -2.05)    end),
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
     awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
     awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
@@ -332,19 +336,63 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn_with_shell("volume_down") end),
     awful.key({ }, "XF86AudioMute", function () awful.util.spawn_with_shell("volume_toggle_mute") end),
 
-    awful.key({ }, "XF86AudioPlay", function () awful.util.spawn_with_shell("mpc toggle") end),
-    awful.key({ }, "XF86AudioStop", function () awful.util.spawn_with_shell("mpc stop") end),
-    awful.key({ }, "XF86AudioPrev", function () awful.util.spawn_with_shell("mpc prev") end),
-    awful.key({ }, "XF86AudioNext", function () awful.util.spawn_with_shell("mpc next") end),
+    -- awful.key({ }, "XF86AudioPlay", function () awful.util.spawn_with_shell("mpc toggle") end),
+    -- awful.key({ }, "XF86AudioStop", function () awful.util.spawn_with_shell("mpc stop") end),
+    -- awful.key({ }, "XF86AudioPrev", function () awful.util.spawn_with_shell("mpc prev") end),
+    -- awful.key({ }, "XF86AudioNext", function () awful.util.spawn_with_shell("mpc next") end),
+      
+    -- specific layouts, mapped to media keys (or layer1-arrowkeys on Model M)
+    awful.key({ }, "XF86AudioPlay", function () awful.layout.set(awful.layout.suit.tile.bottom) end),
+    awful.key({ }, "XF86AudioStop", function () awful.layout.set(awful.layout.suit.tile.top) end),
+    awful.key({ }, "XF86AudioPrev", function () awful.layout.set(awful.layout.suit.floating) end),
+    awful.key({ }, "XF86AudioNext", function () awful.layout.set(outtergap.bottom) end),
 
-    -- screen lock
-    awful.key({ "Mod4", }, "l", function () awful.util.spawn("slock")    end),
-    awful.key({ "Mod4", }, "k", function () awful.util.spawn("keepassx /home/quasar/Dropbox/KeyPass_Database.kdbx") end)
+    -- screen lock, and other launchers. For Model M F1, mapped to the left hand key block
+    -- Current key map from the Model M, left hand EXTRA_ keys:
+    -- 
+    --             Key Codes                       Mapped To (below)
+    --     |--------------|--------------|    |--------------|--------------|
+    --   1 | XF86Favorites| Tilde        |    | restore hist | Tilde        |
+    --     |--------------|--------------|    |--------------|--------------|
+    --   2 | XF86Mail     | XF86Explorer |    | slock        | keepass2     |
+    --     |--------------|--------------|    |--------------|--------------|
+    --   3 | XF86Search   | XF86HomePage |    | focus scrn 1 | focus scrn 2 |
+    --     |--------------|--------------|    |--------------|--------------|
+    --   4 | XF86Back     | XF86Forward  |    | urxvt        | ???          |
+    --     |--------------|--------------|    |--------------|--------------|
+    --   5 | Cancel       | XF86Reload   |    | ???          | ???          |
+    --     |--------------|--------------|    |--------------|--------------|
+
+    -- Row 1 --
+    -- no mappings here, all done via firmware on keyboard
+    awful.key({ }, "XF86Favorites", awful.tag.history.restore),
+
+    -- Row 2 --
+    awful.key({ }, "XF86Mail", function () awful.util.spawn("slock")    end),
+    awful.key({ }, "XF86Explorer", function () awful.util.spawn("keepassx /home/quasar/Dropbox/KeyPass_Database.kdbx") end),
+
+    -- Row 3 --
+    awful.key({ }, "XF86Search", function () awful.screen.focus(1) end),
+    awful.key({ }, "XF86HomePage", function () awful.screen.focus(2) end),
+
+
+    -- Row 4 --
+    awful.key({ }, "XF86Back", function () awful.util.spawn("urxvt") end),
+    
+    -- Row 5 --
+    -- nothing yet
+
+
+    -- other mappings
+    awful.key({ }, "XF86Calculator", function () awful.util.spawn("galculator") end)
 )
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
+    -- added for Model M
+    awful.key({                   }, "XF86Reload",      function (c) c:kill()                         end),
+
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
@@ -362,39 +410,60 @@ clientkeys = awful.util.table.join(
         end)
 )
 
--- Bind the macro keys on the Razer Blackwidow to <something>
+-- F13 - F20 mapped to tags (for Model M, or BlackWidow)
 globalkeys = awful.util.table.join(globalkeys,
-    awful.key({}, "XF86Tools", function()
+    awful.key({}, "#191", function()
         local screen = mouse.screen
         local tag = awful.tag.gettags(screen)[1]
         if tag then
             awful.tag.viewonly(tag)
         end
     end),
-    awful.key({}, "XF86Launch5", function()
+    awful.key({}, "#192", function()
         local screen = mouse.screen
         local tag = awful.tag.gettags(screen)[2]
         if tag then
             awful.tag.viewonly(tag)
         end
     end),
-    awful.key({}, "XF86Launch6", function()
+    awful.key({}, "#193", function()
         local screen = mouse.screen
         local tag = awful.tag.gettags(screen)[3]
         if tag then
             awful.tag.viewonly(tag)
         end
     end),
-    awful.key({}, "XF86Launch7", function()
+    awful.key({}, "#194", function()
         local screen = mouse.screen
         local tag = awful.tag.gettags(screen)[4]
         if tag then
             awful.tag.viewonly(tag)
         end
     end),
-    awful.key({}, "XF86Launch8", function()
+    awful.key({}, "#195", function()
         local screen = mouse.screen
         local tag = awful.tag.gettags(screen)[5]
+        if tag then
+            awful.tag.viewonly(tag)
+        end
+    end),
+    awful.key({}, "#196", function()
+        local screen = mouse.screen
+        local tag = awful.tag.gettags(screen)[6]
+        if tag then
+            awful.tag.viewonly(tag)
+        end
+    end),
+    awful.key({}, "#197", function()
+        local screen = mouse.screen
+        local tag = awful.tag.gettags(screen)[7]
+        if tag then
+            awful.tag.viewonly(tag)
+        end
+    end),
+    awful.key({}, "#198", function()
+        local screen = mouse.screen
+        local tag = awful.tag.gettags(screen)[8]
         if tag then
             awful.tag.viewonly(tag)
         end
@@ -477,6 +546,8 @@ awful.rules.rules = {
                      size_hints_honor = false } },
 
     { rule = { class = "MPlayer" },
+      properties = { floating = true } },
+    { rule = { class = "Galculator" },
       properties = { floating = true } },
     { rule = { class = "pinentry" },
       properties = { floating = true } },
