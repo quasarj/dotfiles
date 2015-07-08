@@ -9,8 +9,9 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
-local menubar = require("menubar")
+-- local menubar = require("menubar")
 local tilegap = require("tilegap")
+-- Other
 local outtergap = require("outtergap")
 local vicious = require("vicious")
 
@@ -45,11 +46,6 @@ end
 beautiful.init("/home/quasar/.config/awesome/themes/dark1/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
--- terminal = "urxvt -e bash -c \"tmux -q has-session -t work && exec tmux attach-session -t work || exec tmux new-session -s work\""
--- terminal = "urxvt -e bash -c \"exec tmux new-session\""
--- terminal = "sakura -e '.dotfiles/bin/sakura_launch_tmux.sh'"
--- letterSpacing -1 added to correct issue Infinality font patches caused with kerning on this font
--- terminal = "urxvt -fn \"xft:DeJa Vu Sans Mono for Powerline:pixelsize=20\" -letterSpacing -1 -e '.dotfiles/bin/sakura_launch_tmux.sh'"
 terminal = "st -e tmux"
 editor = os.getenv("EDITOR") or "gvim"
 -- editor_cmd = terminal .. " -e " .. editor
@@ -61,9 +57,6 @@ editor_cmd = editor
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4" -- Windows Key
-
-
--- naughty.notify({ title = "test", text = "testing naughty"})
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
@@ -127,7 +120,7 @@ mymainmenu = awful.menu({
 --                                      menu = mymainmenu })
 
 -- Menubar configuration
-menubar.utils.terminal = terminal -- Set the terminal for applications that require it
+-- menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
 -- {{{ Wibox
@@ -146,6 +139,7 @@ mytextclock = awful.widget.textclock(" %Y-%m-%d, %I:%M %p ", 1)
 -- MPD Display
 -- some vicious widgets
 mpdwidget = wibox.widget.textbox()
+
 -- Register widget
 vicious.register(mpdwidget, vicious.widgets.mpd,
     function (mpdwidget, args)
@@ -163,11 +157,10 @@ cpuwidget = awful.widget.graph()
 cpuwidget:set_width(50)
 cpuwidget:set_background_color("#494B4F")
 cpuwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 10,0 }, stops = { {0, "#FF5656"}, {0.5, "#88A175"}, 
-                    {1, "#AECF96" }}})
+                    {1, "#AECF96" }} })
+
 -- Register widget
 vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
-
-
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -259,7 +252,8 @@ for s = 1, screen.count() do
 
     mywibox[s]:set_widget(layout)
 end
--- }}}
+
+--}}}
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
@@ -274,17 +268,22 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
+    awful.key({ modkey,           }, "b", awful.tag.history.restore),
 
+    -- Next window
     awful.key({ modkey,           }, "j",
         function ()
             awful.client.focus.byidx( 1)
             if client.focus then client.focus:raise() end
         end),
+    -- Previous window
     awful.key({ modkey,           }, "k",
         function ()
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
+
+    -- Show menu
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
 
     -- Layout manipulation
@@ -328,59 +327,31 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end),
     -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end),
+    -- awful.key({ modkey }, "p", function() menubar.show() end),
 
    -- Multimedia keys
    -- These audio settings require PulseAudio and pamixer.
+   -- Note that pamixer is installed from the AUR, so system updates generally
+   -- break it.
     awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn_with_shell("volume_up") end),
     awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn_with_shell("volume_down") end),
     awful.key({ }, "XF86AudioMute", function () awful.util.spawn_with_shell("volume_toggle_mute") end),
 
-    -- awful.key({ }, "XF86AudioPlay", function () awful.util.spawn_with_shell("mpc toggle") end),
-    -- awful.key({ }, "XF86AudioStop", function () awful.util.spawn_with_shell("mpc stop") end),
-    -- awful.key({ }, "XF86AudioPrev", function () awful.util.spawn_with_shell("mpc prev") end),
-    -- awful.key({ }, "XF86AudioNext", function () awful.util.spawn_with_shell("mpc next") end),
-      
-    -- specific layouts, mapped to media keys (or layer1-arrowkeys on Model M)
-    awful.key({ }, "XF86AudioPlay", function () awful.layout.set(awful.layout.suit.tile.bottom) end),
-    awful.key({ }, "XF86AudioStop", function () awful.layout.set(awful.layout.suit.tile.top) end),
-    awful.key({ }, "XF86AudioPrev", function () awful.layout.set(awful.layout.suit.floating) end),
-    awful.key({ }, "XF86AudioNext", function () awful.layout.set(outtergap.bottom) end),
-
-    -- screen lock, and other launchers. For Model M F1, mapped to the left hand key block
-    -- Current key map from the Model M, left hand EXTRA_ keys:
-    -- 
-    --             Key Codes                       Mapped To (below)
-    --     |--------------|--------------|    |--------------|--------------|
-    --   1 | XF86Favorites| Tilde        |    | restore hist | Tilde        |
-    --     |--------------|--------------|    |--------------|--------------|
-    --   2 | XF86Mail     | XF86Explorer |    | slock        | keepass2     |
-    --     |--------------|--------------|    |--------------|--------------|
-    --   3 | XF86Search   | XF86HomePage |    | focus scrn 1 | focus scrn 2 |
-    --     |--------------|--------------|    |--------------|--------------|
-    --   4 | XF86Back     | XF86Forward  |    | urxvt        | ???          |
-    --     |--------------|--------------|    |--------------|--------------|
-    --   5 | Cancel       | XF86Reload   |    | ???          | ???          |
-    --     |--------------|--------------|    |--------------|--------------|
-
-    -- Row 1 --
-    -- no mappings here, all done via firmware on keyboard
-    awful.key({ }, "XF86Favorites", awful.tag.history.restore),
-
-    -- Row 2 --
-    awful.key({ }, "XF86Mail", function () awful.util.spawn("slock")    end),
-    awful.key({ }, "XF86Explorer", function () awful.util.spawn("keepassx /home/quasar/Dropbox/KeyPass_Database.kdbx") end),
-
-    -- Row 3 --
-    awful.key({ }, "XF86Search", function () awful.screen.focus(1) end),
-    awful.key({ }, "XF86HomePage", function () awful.screen.focus(2) end),
-
-
-    -- Row 4 --
-    awful.key({ }, "XF86Back", function () awful.util.spawn("urxvt") end),
+    awful.key({ }, "XF86AudioPlay", function () awful.util.spawn_with_shell("mpc toggle") end),
+    awful.key({ }, "XF86AudioStop", function () awful.util.spawn_with_shell("mpc stop") end),
+    awful.key({ }, "XF86AudioPrev", function () awful.util.spawn_with_shell("mpc prev") end),
+    awful.key({ }, "XF86AudioNext", function () awful.util.spawn_with_shell("mpc next") end),
     
-    -- Row 5 --
-    -- nothing yet
+    -- Hyper mappings. 
+    -- Mod5 is the Hyper key, which needs to be explicitly set
+    -- via xmodmap or another tool.
+    awful.key({ "Mod5" }, "1", function () awful.screen.focus(1) end), -- focus screen 1
+    awful.key({ "Mod5" }, "2", function () awful.screen.focus(2) end), -- focus screen 2
+
+    awful.key({ "Mod5" }, "l", function () awful.util.spawn("slock")    end),
+    awful.key({ "Mod5" }, "k", function () awful.util.spawn("keepassx /home/quasar/Dropbox/KeyPass_Database.kdbx") end),
+    awful.key({ "Mod5" }, "u", function () awful.util.spawn("urxvt") end),
+    awful.key({ "Mod5" }, "s", function () awful.util.spawn("st") end),
 
 
     -- other mappings
@@ -390,9 +361,6 @@ globalkeys = awful.util.table.join(
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
-    -- added for Model M
-    awful.key({                   }, "XF86Reload",      function (c) c:kill()                         end),
-
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
@@ -469,19 +437,6 @@ globalkeys = awful.util.table.join(globalkeys,
         end
     end)
 )
-
--- Bind F1-F5 to the first five tags for quick switching
--- for i = 1, 5 do
---     globalkeys = awful.util.table.join(globalkeys,
---         awful.key({}, "F" .. i, function()
---             local screen = mouse.screen
---             local tag = awful.tag.gettags(screen)[i]
---             if tag then
---                 awful.tag.viewonly(tag)
---             end
---         end)
---     )
--- end
 
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it works on any keyboard layout.
