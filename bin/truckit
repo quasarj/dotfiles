@@ -1,0 +1,23 @@
+#!/bin/bash
+# Simple script to take a screenshot of a portion of the screen
+# and upload to The Truck.
+# By Quasar, based on "shoot" by Sirupsen @ http://sirupsen.dk
+
+function uploadImage {
+    # Generate a random filename
+    NAME=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c 5)
+    FULLNAME="${NAME}.png"
+
+    scp $1 truckload@notabigtruck.com:tubes/$FULLNAME
+
+    echo "http://i.notabigtruck.com/i/tubes/$FULLNAME"
+}
+
+scrot -s "shot.png" 
+ADDRESS=$(uploadImage "shot.png")
+echo $ADDRESS
+# Make really sure it's in the clipboard, dammit
+echo $ADDRESS | xclip -selection clipboard
+echo $ADDRESS | xclip -selection primary
+rm "shot.png"
+chromium-launch $ADDRESS

@@ -24,7 +24,9 @@ export SVN_COLOR=always
 function svnlog {
     svn log | less
 }
-
+function newest() { 
+    \ls --color=always -lht $1 | head
+}
 # User specific aliases and functions
 alias ls="ls --color=auto"
 alias ll="ls -lh"
@@ -76,19 +78,20 @@ export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=gasp"
 DOTFILESBIN=~/.dotfiles/bin
 DOTFILESBINS=~/.dotfiles/system-specific-bin
 POWERLINEP=~/.dotfiles/submodules/powerline/scripts
-GEMSBIN=~/.gem/ruby/2.1.0/bin
+GEMSBIN=~/.gem/ruby/2.2.0/bin
 
 MPLAYER_PATH=/opt/mplayer2/bin
 
 MISCBIN=/home/quasar/git/misc_scripts
+ATLIB=/home/quasar/projects/attask-cli
 
-LOCALPATH=$DOTFILESBIN:$DOTFILESBINS:$MPLAYER_PATH:$POWERLINEP:$GEMSBIN
+LOCALPATH=$DOTFILESBIN:$DOTFILESBINS:$MPLAYER_PATH:$POWERLINEP:$GEMSBIN:$ATLIB
 AOC_PYTHON=/home/quasar/.local/lib/python2.7/site-packages/aoc
 
 export GOPATH=$HOME/go
 GNUPRICING=~/gnu-pricing/bin
 
-export PATH=$GNUPRICING:$LOCALPATH:$JAVA_HOME/bin:$PATH:$GOPATH/bin:$MISCBIN
+export PATH=$LOCALPATH:$JAVA_HOME/bin:$PATH:$GOPATH/bin:$MISCBIN
 
 export EDITOR=vim
 export aoc=/home/quasar/.local/lib/python2.7/site-packages/aoc

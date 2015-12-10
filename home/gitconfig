@@ -6,3 +6,7 @@
 	ui = auto
 [push]
 	default = simple
+[gitlab]
+	url = http://git
+	token = MsJbp3sryaJ3v9xUNZVX
+	host = http://git
