@@ -1,0 +1,8 @@
+#!/bin/bash
+# Simple script to take a screenshot of a portion of the screen
+# and DRAG THEM PLACES
+# By Quasar, based on "shoot" by Sirupsen @ http://sirupsen.dk
+
+scrot -s "/tmp/shot.png" 
+dragon "/tmp/shot.png"
+rm /tmp/shot.png

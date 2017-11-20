@@ -16,7 +16,13 @@ ids=$(xinput --list | grep -i pointer | awk -v search="$SEARCH" \
                  }'\
      )
 
+speed=0.333
 for i in $ids
 do
+    # Use this line with evdev driver
     xinput set-prop $i 'Device Accel Constant Deceleration' 3
+
+    # Use this line with libinput driver
+    #xinput set-prop $i "Coordinate Transformation Matrix" $speed, 0, 0, 0, $speed, 0, 0, 0, 1
+
 done

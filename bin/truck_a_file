@@ -1,0 +1,20 @@
+#!/bin/bash
+# Upload any file to The Truck, quickly.
+# By Quasar, based on "shoot" by Sirupsen @ http://sirupsen.dk
+
+function uploadFile {
+    # Generate a random filename
+    NAME=$(basename $1)
+
+    scp $1 truckload@notabigtruck.com:tubes/$NAME
+
+    echo "http://i.notabigtruck.com/i/tubes/$NAME"
+}
+
+echo $1
+ADDRESS=$(uploadFile "$1")
+echo $ADDRESS
+# Make really sure it's in the clipboard, dammit
+echo $ADDRESS | xclip -selection clipboard
+echo $ADDRESS | xclip -selection primary
+echo "Address has been added to cilpboard"

@@ -20,4 +20,4 @@ echo $ADDRESS
 echo $ADDRESS | xclip -selection clipboard
 echo $ADDRESS | xclip -selection primary
 rm "shot.png"
-chromium-launch $ADDRESS
+chromium $ADDRESS
